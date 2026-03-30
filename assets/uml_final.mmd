@@ -1,0 +1,52 @@
+classDiagram
+    class Owner {
+        +str name
+        +int daily_available_minutes
+        +list preferred_categories
+        +list pets
+        +add_pet(pet)
+        +get_pet(pet_name)
+        +add_task_to_pet(pet_name, task)
+        +iter_tasks(target_date, include_completed)
+    }
+
+    class Pet {
+        +str name
+        +str species
+        +int age
+        +str notes
+        +list tasks
+        +add_task(task)
+        +get_task(task_id)
+        +task_count()
+        +tasks_for_day(target_date, include_completed)
+    }
+
+    class Task {
+        +str title
+        +str time
+        +int duration_minutes
+        +str priority
+        +str frequency
+        +date due_date
+        +str category
+        +bool completed
+        +mark_complete()
+        +occurs_on(target_date)
+        +next_occurrence()
+    }
+
+    class Scheduler {
+        +Owner owner
+        +sort_by_time(tasks)
+        +filter_tasks(pet_name, completed, target_date)
+        +detect_conflicts(target_date)
+        +mark_task_complete(pet_name, task_id)
+        +generate_daily_plan(target_date)
+    }
+
+    Owner "1" --> "*" Pet : has
+    Owner "1" --> "1" Scheduler : uses
+    Pet "1" --> "*" Task : owns
+    Scheduler --> Owner : reads
+    Scheduler --> Task : evaluates
